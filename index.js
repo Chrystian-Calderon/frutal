@@ -2,9 +2,10 @@ const express = require('express');
 const morgan = require('morgan');
 const path  = require('path');
 
-const { connection } = require('./config/connect');
-//const authRoutes = require('./routes/auth');
-//const dashboardRoutes = require('./routes/dashboard');
+const createUserController = require('./routes/users.routes');
+const UserModel = require('./model/users.model');
+const homeRoutes = require('./routes/home.routes');
+
 const app = express();
 
 // configuracion
@@ -15,17 +16,13 @@ app.use(morgan('dev'));
 app.use(express.json());
 
 // rutas
-app.get('/employees', (req, res) => {
-  res.send('obteniendo empleados');
-});
-app.post('/employees', (req, res) => {
-  res.send('creando empleados');
-});
-app.put('/employees', (req, res) => {
-  res.send('actualizando emppleados');
-});
-app.delete('/employees', (req, res) => {
-  res.send('eliminando empleado');
+//app.use(homeRoutes);
+app.use('/users', createUserController({ userModel: UserModel}));
+
+app.use((req, res, next) => {
+  res.status(404).json({
+    message: 'Que paso'
+  });
 });
 
 // achivos estaticos
