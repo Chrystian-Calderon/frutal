@@ -8,12 +8,17 @@ const createUserController = ({ userModel }) => {
     const users = new UserController({ userModel });
     
     router.get('/', users.getUsers);
-    router.get('/:id', users.getUser);
     router.post('/', users.createUser);
+
+    router.get('/info', users.getUsersInfo);
+    router.post('/getLogin', users.getLogin);
+    
     //router.put('/users/:id', users.updateUser);
+    router.get('/:id', users.getUser);
     router.patch('/:id', users.updateUser);
     router.delete('/:id', users.deleteUser);
-
+    
+    
     return router;
 }
 
