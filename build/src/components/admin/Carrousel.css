@@ -1,0 +1,7 @@
+.slick-slider .slick-prev:before,
+.slick-slider .slick-next:before {color: #000;}
+.slick-slide > div {
+    margin: 0 10px;
+}
+.slick-slide .stores {transition: 0.3s; cursor: pointer;}
+.slick-slide .stores:hover {background-color: var(--bg-aux) !important; color: var(--color-white);} 
