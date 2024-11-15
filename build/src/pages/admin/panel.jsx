@@ -4,7 +4,7 @@ import { getStoreListRequest, getStoreMonthDayRequest, getStoreSalesRequest } fr
 
 import {SalesBarsChart} from '../../components/admin/SalesChart';
 import NavBarHeader from "../../components/admin/NavBarHeader";
-import Carrousel from "../../components/admin/carrousel";
+import Carrousel from "../../components/admin/Carrousel";
 import SelectComponent from "../../components/admin/Select.component";
 import MonthlyReportStores from "../../components/admin/monthlyReportStores";
 import { jwtDecode } from "jwt-decode";
