@@ -1,1 +1,1 @@
-export const url = process.env.URL;
+export const url = import.meta.env.VITE_URL;
