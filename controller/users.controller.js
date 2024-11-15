@@ -86,9 +86,9 @@ class UserController {
                 cellular: cellular
             };
             const rowPerson = await personModel.create({ input });
-            if (rowPerson.affectedRows === 0) return res.status(404).json({
-                message: 'No se logro'
-            });
+            // if (rowPerson.affectedRows === 0) return res.status(404).json({
+            //     message: 'No se logro'
+            // });
             
             input = {
                 idPerson: rowPerson.id,
@@ -99,9 +99,9 @@ class UserController {
                 idStore: (store) ? store : null
             }
             const row = await this.userModel.create({ input });
-            if (row.affectedRows === 0) return res.status(404).json({
-                message: 'No se logro'
-            });
+            // if (row.affectedRows === 0) return res.status(404).json({
+            //     message: 'No se logro'
+            // });
 
             res.send('registro insertado');
         } catch (error) {
