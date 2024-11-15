@@ -21,7 +21,7 @@ class UserModel extends BaseModel {
             });
             return formattedUsers;
         } catch (e) {
-            console.error('Error en la consulta:', error.message);
+            console.error('Error en la consulta:', e.message);
         } finally {
             if (conn) conn.release();
         }
@@ -38,7 +38,7 @@ class UserModel extends BaseModel {
     
             return row[0];
         } catch (e) {
-            console.error('Error en la consulta:', error.message);
+            console.error('Error en la consulta:', e.message);
         } finally {
             if (conn) conn.release();
         }
@@ -71,7 +71,7 @@ class UserModel extends BaseModel {
     
             return row;
         } catch (e) {
-            console.error('Error en la consulta:', error.message);
+            console.error('Error en la consulta:', e.message);
         } finally {
             if (conn) conn.release();
         }
@@ -100,7 +100,7 @@ class UserModel extends BaseModel {
     
             return row;
         } catch (e) {
-            console.error('Error en la consulta:', error.message);
+            console.error('Error en la consulta:', e.message);
         } finally {
             if (conn) conn.release();
         }
@@ -118,7 +118,7 @@ class UserModel extends BaseModel {
             row[0].idPerson = row[0].idPerson.toString('hex');
             return row[0];
         } catch (e) {
-            console.error('Error en la consulta:', error.message);
+            console.error('Error en la consulta:', e.message);
         } finally {
             if (conn) conn.release();
         }
@@ -197,7 +197,7 @@ class UserModel extends BaseModel {
             });
             return formattedUsers;
         } catch (e) {
-            console.error('Error en la consulta:', error.message);
+            console.error('Error en la consulta:', e.message);
         } finally {
             if (conn) conn.release();
         }
@@ -230,7 +230,7 @@ class UserModel extends BaseModel {
             });
             return formattedUsers;
         } catch (e) {
-            console.error('Error en la consulta:', error.message);
+            console.error('Error en la consulta:', e.message);
         } finally {
             if (conn) conn.release();
         }
@@ -247,7 +247,7 @@ class UserModel extends BaseModel {
     
             return row[0];
         } catch (e) {
-            console.error('Error en la consulta:', error.message);
+            console.error('Error en la consulta:', e.message);
         } finally {
             if (conn) conn.release();
         }
@@ -264,7 +264,7 @@ class UserModel extends BaseModel {
     
             return row[0];
         } catch (e) {
-            console.error('Error en la consulta:', error.message);
+            console.error('Error en la consulta:', e.message);
         } finally {
             if (conn) conn.release();
         }

@@ -18,7 +18,7 @@ class PersonModel extends BaseModel {
             });
             return formattedPerson;
         } catch (e) {
-            console.error('Error en la consulta:', error.message);
+            console.error('Error en la consulta:', e.message);
         } finally {
             if (conn) conn.release();
         }
@@ -38,7 +38,7 @@ class PersonModel extends BaseModel {
             const [rows] = await conn.query(sql);
             return rows;
         } catch (e) {
-            console.error('Error en la consulta:', error.message);
+            console.error('Error en la consulta:', e.message);
         } finally {
             if (conn) conn.release();
         }
@@ -70,7 +70,7 @@ class PersonModel extends BaseModel {
                 id: uuid
             };
         } catch (e) {
-            console.error('Error en la consulta:', error.message);
+            console.error('Error en la consulta:', e.message);
         } finally {
             if (conn) conn.release();
         }
