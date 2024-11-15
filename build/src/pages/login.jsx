@@ -1,4 +1,4 @@
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import Container from 'react-bootstrap/esm/Container';
 import Form from 'react-bootstrap/Form'
@@ -12,6 +12,7 @@ import { getLogin } from "../api/user.api";
 
 function Login() {
     const { register, handleSubmit, formState: {errors}, reset } = useForm();
+    const navigate = useNavigate();
     const location = useLocation();
     const errorMessage = location.state?.error || '';
 
@@ -22,7 +23,7 @@ function Login() {
             if (response.data.result) {
                 let token = response.data.token;
                 localStorage.setItem('token', token);
-                window.location.href = '/admin/panel';
+                navigate('/admin/panel');
             }
             reset();
         } catch (error) {
