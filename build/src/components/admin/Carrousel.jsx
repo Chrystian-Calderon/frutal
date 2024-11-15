@@ -18,6 +18,7 @@ const Carrousel = ({ storeData, role, stores }) => {
     const handleClick = (id, store) => {
         if (stores.includes(id)) {
             localStorage.setItem('number', id);
+            localStorage.setItem('storeName', store);
             const name = store.toLowerCase().replace(/\s+/g, '');
             localStorage.setItem('store', name);
             navigate(`/admin/statistics/${name}`);
