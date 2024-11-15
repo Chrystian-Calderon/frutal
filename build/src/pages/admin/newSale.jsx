@@ -176,7 +176,6 @@ const NewSale = () => {
                     
                 </Col>
 
-                {/* Columna Derecha */}
                 <Col>
                     <Form.Group>
                         <Form.Label htmlFor="due">Pago</Form.Label>
