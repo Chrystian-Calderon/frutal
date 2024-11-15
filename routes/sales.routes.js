@@ -1,6 +1,5 @@
 const express = require('express');
 
-const UserController = require('./../controller/sales.controller');
 const SalesController = require('./../controller/sales.controller');
 
 const createSalesController = ({ saleModel }) => {
@@ -9,7 +8,13 @@ const createSalesController = ({ saleModel }) => {
     const sales = new SalesController({ saleModel });
     
     router.get('/', sales.getSales);
+    router.post('/', sales.createSale);
 
+    router.get('/edit', sales.getSaleForEdit);
+    router.patch('/update', sales.updateSale);
+    router.delete('/delete', sales.deleteSale);
+
+    router.get('/report', sales.getSalesReport);
     router.get('/statistics', sales.getForStatistics);
 
     return router;

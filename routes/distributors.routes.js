@@ -7,6 +7,8 @@ const createDistributorsController = ({ distributorsModel }) => {
 
     const distributors = new DistributorsController({ distributorsModel });
 
+    router.get('/name', distributors.getName);
+
     return router;
 
 }

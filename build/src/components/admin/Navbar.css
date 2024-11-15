@@ -1,0 +1,36 @@
+:root {
+    --bg: #001F3F;
+    --bg-aux: #3A6D8C;
+    --color-columbia-blue: #6A9AB0;
+    --color-white: #F7F7FF;
+    --color-red: #FE5F55;
+}
+
+.side-nav .navbar {
+  --bs-navbar-padding-y: 0;
+}
+
+.accordion-header .accordion-button {
+    background-color: var(--bg-aux);
+    color: var(--color-white);
+    padding: 5px 12px;
+    gap: 5px;
+    font-size: 20px;
+}
+.accordion-header .accordion-button:not(.collapsed) {
+  background-color: var(--color-columbia-blue);
+  color: #000;
+  font-weight: 500;
+}
+.accordion-header .accordion-button:hover {background-color: var(--color-columbia-blue); color: var(--color-white);}
+.accordion-header .accordion-button:focus {
+  box-shadow: none;
+}
+  
+.accordion-body {
+  background-color: #eaeaea; /* Cambiar color del cuerpo del accordion */
+  padding: 20px; /* Cambiar el espaciado */
+}
+.accordion-body .btn {border: none; text-align: left;}
+.accordion-body .btn.btn-primary {border-radius: 0; background-color: var(--bg-aux); font-size: 20px;}
+.accordion-body .btn.btn-primary:hover {background-color: var(--color-columbia-blue);}

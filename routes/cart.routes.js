@@ -7,6 +7,12 @@ const createCartController = ({ cartModel }) => {
 
     const cart = new CartController({ cartModel });
 
+    router.get('/', cart.getCars);
+    router.get('/car', cart.getCar);
+    router.post('/', cart.createCar);
+    router.patch('/update', cart.updateCar);
+    router.delete('/delete', cart.deleteCar);
+
     return router;
 }
 

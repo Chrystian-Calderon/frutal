@@ -1,7 +1,7 @@
 const personModel = require("../model/person.model");
-const Validation = require("../model/Validation");
-const jwt = require('jsonwebtoken');
-const {SECRET_KEY} = require('../config/config');
+const {validateUser, validatePassword} = require("../helpers/Validation");
+const {validateUserError, validatePasswordError} = require("../helpers/errors");
+const { tokenSign, verifyToken } = require("../helpers/generateToken");
 
 class UserController {
     constructor({ userModel }) {
@@ -9,11 +9,14 @@ class UserController {
     }
 
     getUsers = async (req, res) => {
+        console.log("Solicitud recibida en /users/info");
         try {
-            //throw new Error('DB error');
             const rows = await this.userModel.getAll();
-            res.json(rows);
+            console.log("Datos obtenidos:", rows);
+            res.status(200).json(rows);
+
         } catch (error) {
+            console.error("Error en getUsers:", error.message);
             return res.status(500).json({
                 error: error.message
             });
@@ -36,7 +39,42 @@ class UserController {
                 error: error.message
             })
         }
+    }
 
+    getPermissions = async (req, res) => {
+        const id = req.query.id;
+
+        try {
+            const row = await this.userModel.getPermissions({ id });
+
+            if (row.length <= 0) return res.status(404).json({
+                message: 'Usuario no encontrado'
+            });
+    
+            res.send(row);
+        } catch (error) {
+            return res.status(500).json({
+                error: error.message
+            })
+        }
+    }
+
+    getUserStore = async (req, res) => {
+        const id = req.query.id;
+
+        try {
+            const row = await this.userModel.getUserStore({ id });
+
+            if (row.length <= 0) return res.status(404).json({
+                message: 'Usuario no encontrado'
+            });
+
+            res.send(row);
+        } catch (error) {
+            return res.status(500).json({
+                error: error.message
+            })
+        }
     }
 
     createUser = async (req, res) => {
@@ -74,11 +112,11 @@ class UserController {
     }
 
     updateUser = async (req, res) => {
-        const id = req.params.id;
-        const input = req.body;
+        const { id } = req.body.params;
+        const input = req.body.data;
 
         try {
-            const rows = await this.userModel.updateById({ id, input });
+            // const rows = await this.userModel.updateById({ id, input });
 
             if (rows.affectedRows === 0) return res.status(404).json({
                 message: 'No se encontro'
@@ -111,6 +149,7 @@ class UserController {
     }
 
     getUsersInfo = async (req, res) => {
+        console.log("Solicitud recibida en /users/info");
         try {
             const table1 = 'person';
             const table2 = 'store';
@@ -119,29 +158,44 @@ class UserController {
             const input3 = ['name'];
             const join = 'idStore';
             const rowsPerson = await this.userModel.getDataThreeTables({ table1, table2, input1, input2, input3, join });
-
+            console.log(rowsPerson);
             res.json(rowsPerson);
         } catch (error) {
+            console.error("Error en getUsersInfo:", error.message);
             return res.status(500).json({
                 error: error.message
             });
         }
     }
 
-    getLogin = async (req, res) => {
+    getUserForEdit = async (req, res) => {
+        const id = req.query.id;
+        console.log(id)
+        try {
+            const row = await this.userModel.getUserEdit({ id });
+
+            if (row.length <= 0) return res.status(404).json({
+                message: 'Usuario no encontrado'
+            });
+    
+            res.send(row);
+        } catch (error) {
+            return res.status(500).json({
+                error: error.message
+            })
+        }
+    }
+
+    getLogin = async (req, res, next) => {
         const {username, password} = req.body;
 
-        Validation.username(username);
-        Validation.password(password);
-        
         try {
+            validateUser(username);
+            validatePassword(password);
+
             const [rows] = await this.userModel.getLogin({ username, password });
-            const token = jwt.sign(
-                {id: rows[0].idPerson, },
-                SECRET_KEY,
-                {
-                    expiresIn: '1h'
-                });
+            const token = await tokenSign(rows);
+
             if (rows.message !== undefined) {
                 return res.status(404).json({
                     result: false,
@@ -151,13 +205,28 @@ class UserController {
             
             res.status(200).json({
                 result: true,
-                data: rows
+                token: token
             });
         } catch (error) {
-            return res.status(500).json({
-                message: error.message
-            });
+            if (error instanceof validateUserError) {
+                return res.status(400).json({error: error.message});
+            }
+            if (error instanceof validatePasswordError) {
+                return res.status(400).json({error: error.message});
+            }
+
+            next(error);
         }
+    }
+
+    verifyTokenR = async (req, res, next) => {
+        const token = req.headers.authorization?.split(' ')[1];
+  
+        if (!token) return res.status(401).json({ message: 'No valido', ok: false });
+
+        if (!verifyToken(token)) return res.status(401).json({ message: 'Token no valido', ok: false });
+
+        res.status(200).json({ message: 'Token valido', ok: true });
     }
 }
 

@@ -1,0 +1,32 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+:root {
+    --bg: #001F3F;
+    --bg-aux: #3A6D8C;
+    --color-columbia-blue: #6A9AB0;
+    --color-white: #F7F7FF;
+    --color-red: #FE5F55;
+    font-family: 'Roboto', sans-serif;
+}
+
+.header-nav {
+    background-color: var(--bg);
+    color: var(--color-white);
+}
+
+/* navbar */
+.side-nav {background-color: var(--bg-aux);}
+.side-nav .side-nav-bar:hover {
+    background-color: var(--color-columbia-blue);
+    transition: 0.3s;
+}
+.side-nav a {
+    display: inline-block;
+    width: 100%;
+    margin: 0;
+    color: var(--color-white);
+}
+.side-nav a:hover {
+    color: var(--color-white);
+    font-weight: 500;
+}

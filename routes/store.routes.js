@@ -7,7 +7,16 @@ const createStoreController = ({ storeModel }) => {
 
     const store = new StoreController({ storeModel });
 
-    router.get('/list', store.getStoresName);
+    router.patch('/update', store.updateStore);
+
+    router.get('/data', store.getStoreById);
+    router.get('/storeSales', store.getStoresSales);
+    router.get('/storeSale', store.getStoreSales);
+    router.get('/storeSalesMonthDay', store.getStoresSalesMonthDay);
+    router.get('/name', store.getStoresName);
+    router.get('/storeSalesTotals', store.getStoreSalesTotals);
+    router.get('/storeSalesProducts', store.getSalesProducts);
+    router.get('/storeComparationSales', store.getComparationSales);
 
     return router;
 }

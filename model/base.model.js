@@ -8,7 +8,8 @@ class BaseModel {
 
     static async getConnection() {
         try {
-            return await connection.getConnection();
+            const conn = await connection.getConnection();
+            return conn;
         } catch (err) {
             console.error('Error al obtener la conexión:', err.message);
             throw err;
@@ -16,19 +17,33 @@ class BaseModel {
     }
 
     async getAll() {
-        let conn = await BaseModel.getConnection();
-        const [rows] = await conn.query('SELECT * FROM ' + this._table);
-        return rows;
+        let conn;
+        try {
+            conn = await BaseModel.getConnection();
+            const [rows] = await conn.query('SELECT * FROM ' + this._table);
+            return rows;
+        } catch (e) {
+            console.error('Error en la consulta:', e.message);
+        } finally {
+            if (conn) conn.release();
+        }
     }
 
     async getById({ id }) {
-        let conn = await BaseModel.getConnection();
-        const [row] = await conn.query('SELECT * FROM ' + this._table + ' WHERE ' + this._id + ' = ?',
-            [id]);
-
-        if (row.length === 0) return null;
-
-        return row[0];
+        let conn;
+        try {
+            conn = await BaseModel.getConnection();
+            const [row] = await conn.query('SELECT * FROM ' + this._table + ' WHERE ' + this._id + ' = ?',
+                [id]);
+    
+            if (row.length === 0) return null;
+            
+            return row[0];
+        } catch (e) {
+            console.error('Error en la consulta:', e.message);
+        } finally {
+            if (conn) conn.release();
+        }
     }
 
     async create({ input }) {
@@ -43,10 +58,17 @@ class BaseModel {
         sql = sql.substring(0, sql.length - 2);
         sql += ') VALUES (' + auxSQL.substring(0, auxSQL.length - 2) + ')';
 
-        let conn = await BaseModel.getConnection();
-        const [row] = await conn.query(sql, values);
-
-        return row;
+        let conn;
+        try {
+            conn = await BaseModel.getConnection();
+            const [row] = await conn.query(sql, values);
+    
+            return row;
+        } catch (e) {
+            console.error('Error en la consulta:', e.message);
+        } finally {
+            if (conn) conn.release();
+        }
     }
 
     async updateById({ id, input }) {
@@ -60,18 +82,32 @@ class BaseModel {
         sql += ' WHERE ' + this._id + ' = ?';
         values.push(id);
 
-        let conn = await BaseModel.getConnection();
-        const [row] = await conn.query(sql, values);
-
-        return row;
+        let conn;
+        try {
+            conn = await BaseModel.getConnection();
+            const [row] = await conn.query(sql, values);
+    
+            return row;
+        } catch (e) {
+            console.error('Error en la consulta:', e.message);
+        } finally {
+            if (conn) conn.release();
+        }
     }
 
     async deleteById({ id }) {
-        let conn = await BaseModel.getConnection();
-        const [row] = await conn.query('DELETE FROM ' + this._table + ' WHERE ' + this._id + ' = ?',
-            [id]);
-
-        return row;
+        let conn;
+        try {
+            conn = await BaseModel.getConnection();
+            const [row] = await conn.query('DELETE FROM ' + this._table + ' WHERE ' + this._id + ' = ?',
+                [id]);
+    
+            return row;
+        } catch (e) {
+            console.error('Error en la consulta:', e.message);
+        } finally {
+            if (conn) conn.release();
+        }
     }
 }
 
