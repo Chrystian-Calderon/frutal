@@ -43,7 +43,7 @@ class UserController {
 
     getPermissions = async (req, res) => {
         const id = req.query.id;
-
+        console.log(id)
         try {
             const row = await this.userModel.getPermissions({ id });
 

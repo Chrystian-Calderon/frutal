@@ -240,7 +240,7 @@ class UserModel extends BaseModel {
         let conn;
         try {
             conn = await BaseModel.getConnection();
-            const [row] = await conn.query('SELECT GROUP_CONCAT(p.name SEPARATOR ", ") AS permission, u.idPerson FROM users u LEFT JOIN userpermission up ON u.idPerson = up.idPerson LEFT JOIN permissions p ON up.idPermission = p.idPermission WHERE u.idPerson = UUID_TO_BIN(?) GROUP BY u.idPerson',
+            const [row] = await conn.query(`SELECT GROUP_CONCAT(p.name SEPARATOR ', ') AS permission, u.idPerson FROM users u LEFT JOIN userpermission up ON u.idPerson = up.idPerson LEFT JOIN permissions p ON up.idPermission = p.idPermission WHERE u.idPerson = UUID_TO_BIN(?) GROUP BY u.idPerson`,
                 [id]);
     
             if (row.length === 0) return null;
