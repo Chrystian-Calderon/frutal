@@ -201,7 +201,7 @@ function Sales() {
               </tr>
             </thead>
             <tbody>
-              {currentRecords.map((sales, key) => (
+              {salesData && salesData.length > 0 ? (currentRecords.map((sales, key) => (
                 <tr key={sales.idSale}>
                   <td>{indexOfFirstRecord + key + 1}</td>
                   <td>{sales.name_user}</td>
@@ -228,7 +228,7 @@ function Sales() {
                     </div>
                   </td>
                 </tr>
-              ))}
+              ))) : ''}
             </tbody>
           </table>
         </div>
