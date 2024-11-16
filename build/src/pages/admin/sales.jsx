@@ -43,6 +43,7 @@ function Sales() {
     const fetchSalesData = async () => {
       const response = await getSalesRequest(number);
       const data = await response.data;
+      console.log(data)
       setSalesData(data);
     };
 
