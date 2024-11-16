@@ -10,7 +10,6 @@ import Form from "react-bootstrap/Form";
 import { deleteSaleRequest, getSalesRequest } from '../../api/sales.api';
 import { getProductsNameRequest } from "../../api/products.api";
 import SelectComponent from "../../components/admin/Select.component";
-import { Accordion } from "react-bootstrap";
 
 function Sales() {
   const [salesData, setSalesData] = useState([]);
@@ -60,7 +59,7 @@ function Sales() {
 
   const groupedSales = salesData.reduce((acc, current) => {
     const existingSale = acc.find(sale => sale.idSale === current.idSale);
-    
+
     if (existingSale) {
         existingSale.addition_products.push({
             name: current.addition_product,
@@ -84,7 +83,7 @@ function Sales() {
         });
     }
     return acc;
-  }, []);
+  }, [salesData]);
 
   const filteredSales = groupedSales.filter(sale => 
     (selectedProduct === "" || sale.name_product === selectedProduct) && 
