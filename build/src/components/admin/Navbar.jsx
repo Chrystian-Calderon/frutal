@@ -4,12 +4,14 @@ import Accordion from 'react-bootstrap/Accordion';
 import Button from 'react-bootstrap/esm/Button';
 import './Navbar.css';
 import { jwtDecode } from 'jwt-decode';
+import { useNavigate } from 'react-router-dom';
 
 const NavBar = ({ permissions }) => {
     const id = localStorage.getItem('number');
     const store = localStorage.getItem('store');
     const token = localStorage.getItem('token');
     const {role} = jwtDecode(token);
+    const navigate = useNavigate();
 
     console.log(role)
     console.log(permissions)
@@ -21,7 +23,7 @@ const NavBar = ({ permissions }) => {
             <Navbar className="side-nav-bar">
                 <Container>
                     <Navbar.Brand
-                    href={`/admin/statistics/${store}`}
+                    onClick={() => navigate(`/admin/statistics/${store}`)}
                     style={{display: 'inline-block', width: '100%', margin: '0'}}>
                         <img src="/logos/statistics.png" alt="" />{' '}
                         Estadisticas
@@ -36,7 +38,7 @@ const NavBar = ({ permissions }) => {
                             Control de tienda
                         </Accordion.Header>
                         <Accordion.Body className='p-0'>
-                            <Button href="/admin/store">
+                            <Button onClick={() => navigate(`/admin/store`)}>
                                 <img src="/logos/store.png" alt="" />{' '}
                                 Tienda
                             </Button>
@@ -44,7 +46,7 @@ const NavBar = ({ permissions }) => {
                                 <img src="/logos/profile.png" alt="" />{' '}
                                 Perfiles
                             </Button> */}
-                            <Button href="/admin/car">
+                            <Button onClick={() => navigate(`/admin/car`)}>
                                 <img src="/logos/car.png" alt="" />{' '}
                                 Carritos
                             </Button>
@@ -63,7 +65,7 @@ const NavBar = ({ permissions }) => {
             {permissions.includes('users_view') && (
                 <Navbar className="side-nav-bar">
                     <Container>
-                        <Navbar.Brand href="/admin/users">
+                        <Navbar.Brand onClick={() => navigate(`/admin/users`)}>
                             <img src="/logos/users.png" alt="" />{' '}
                             Usuarios
                         </Navbar.Brand>
@@ -73,7 +75,7 @@ const NavBar = ({ permissions }) => {
             {permissions.includes('sales_view') && (
                 <Navbar className="side-nav-bar">
                     <Container>
-                        <Navbar.Brand href="/admin/sales">
+                        <Navbar.Brand onClick={() => navigate(`/admin/sales`)}>
                             <img src="/logos/sales.png" alt="" />{' '}
                             Ventas
                         </Navbar.Brand>
@@ -82,7 +84,7 @@ const NavBar = ({ permissions }) => {
             )}
             <Navbar className="side-nav-bar">
                 <Container>
-                    <Navbar.Brand href="/admin/reports">
+                    <Navbar.Brand onClick={() => navigate(`/admin/reports`)}>
                         <img src="/logos/reports.png" alt="" />{' '}
                         Reportes
                     </Navbar.Brand>
@@ -90,7 +92,7 @@ const NavBar = ({ permissions }) => {
             </Navbar>
             <Navbar className="side-nav-bar">
                 <Container>
-                    <Navbar.Brand href="/admin/help">
+                    <Navbar.Brand onClick={() => navigate(`/admin/help`)}>
                         <img src="/logos/help.png" alt="" />{' '}
                         Ayuda
                     </Navbar.Brand>
@@ -98,7 +100,7 @@ const NavBar = ({ permissions }) => {
             </Navbar>
             <Navbar className="side-nav-bar">
                 <Container>
-                    <Navbar.Brand href="/admin/about">
+                    <Navbar.Brand onClick={() => navigate(`/admin/about`)}>
                         <img src="/logos/about.png" alt="" />{' '}
                         Acerca de
                     </Navbar.Brand>
