@@ -57,8 +57,8 @@ class SalesController {
     }
 
     getForStatistics = async (req, res) => {
-        let { timePeriod } = req.query;
-
+        let { timePeriod, id } = req.query;
+        id = parseInt(id);
         if (!timePeriod) {
             return res.status(400).json({ error: 'Periodo de tiempo requerido' });
         }
@@ -86,8 +86,8 @@ class SalesController {
 
         try {
             timePeriod = period;
-            const rows = await this.saleModel.getForStatistics({ timePeriod });
-            res.json(rows);
+            const rows = await this.saleModel.getForStatistics({ timePeriod, id });
+            res.status(200).json(rows);
         } catch (error) {
             console.log(error);
             return res.status(500).json({
@@ -171,7 +171,9 @@ class SalesController {
                 message: 'No se encontro'
             });
 
-            res.send('algo se elimino');
+            res.status(200).json({
+                ok: true,
+            });
         } catch (error) {
             return res.status(500).json({
                 message: error.message
