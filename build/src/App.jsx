@@ -21,12 +21,19 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import ProductList from "./pages/admin/products"
 import Car from "./pages/admin/car"
 import CartForm from "./pages/admin/cartForm"
+import Products from "./pages/products"
+import Catalog from "./pages/catalog"
+import ProductIcecream from "./pages/admin/productIcecream"
+import ProductAddition from "./pages/admin/productAddition"
+import CapturarCamara from "./pages/admin/CameraCapture"
 
 function App() {
   return (
     <>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/products" element={<Products />} />
+        <Route path="/catalog" element={<Catalog />} />
         <Route path="/contact" element={<Contact />} />
 
         <Route path="/login" element={<Login />} />
@@ -41,6 +48,10 @@ function App() {
           <Route path="panel" element={<Panel />} />
           <Route path="statistics/:name" element={<Statistics />} />
           <Route path="products" element={<ProductList />} />
+          <Route path="newIcecream" element={<ProductIcecream />} />
+          <Route path="newAddition" element={<ProductAddition />} />
+          <Route path="editIcecream/:id" element={<ProductIcecream />} />
+          <Route path="editAddition/:id" element={<ProductAddition />} />
           <Route path="store" element={<Store />} />
           <Route path="car" element={<Car />} />
           <Route path="newCart" element={<CartForm />} />
@@ -52,6 +63,7 @@ function App() {
           <Route path="newSale" element={<NewSale />} />
           <Route path="editSale" element={<EditSale />} />
           <Route path="reports" element={<Reports />} />
+          <Route path="capturar" element={<CapturarCamara />} />
           <Route path="help" element={<Help />} />
           <Route path="about" element={<About />} />
         </Route>
