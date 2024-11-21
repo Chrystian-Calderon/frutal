@@ -77,6 +77,34 @@ class CartModel extends BaseModel {
             if (conn) conn.release();
         }
     }
+
+    async updateById({ id, input }) {
+        let sql = 'UPDATE ' + this._table + ' SET ';
+        let values = [];
+        for (let key in input) {
+            if (key == 'idPerson') {
+                sql += key + ' = UUID_TO_BIN(?),';
+            } else {
+                sql += key + ' = ?,';
+            }
+            values.push(input[key]);
+        }
+        sql = sql.substring(0, sql.length - 1);
+        sql += ' WHERE ' + this._id + ' = ?';
+        values.push(id);
+
+        let conn;
+        try {
+            conn = await BaseModel.getConnection();
+            const [row] = await conn.query(sql, values);
+    
+            return row;
+        } catch (e) {
+            console.error('Error en la consulta:', e.message);
+        } finally {
+            if (conn) conn.release();
+        }
+    }
 }
 
 module.exports = new CartModel();

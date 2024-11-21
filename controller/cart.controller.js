@@ -47,6 +47,7 @@ class CartController {
     updateCar = async (req, res) => {
         const { id } = req.body.params;
         const input = req.body.data;
+
         try {
             const rows = await this.cartModel.updateById({ id, input });
             res.send('cambios realizados');

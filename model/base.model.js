@@ -81,7 +81,7 @@ class BaseModel {
         sql = sql.substring(0, sql.length - 1);
         sql += ' WHERE ' + this._id + ' = ?';
         values.push(id);
-
+        console.log(sql)
         let conn;
         try {
             conn = await BaseModel.getConnection();

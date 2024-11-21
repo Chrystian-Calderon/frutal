@@ -25,7 +25,7 @@ class SaleModel extends BaseModel {
         JOIN person pd ON d.idPerson = pd.idPerson
         JOIN payments py ON s.idSale = py.idSale
         LEFT JOIN products p ON s.idProduct = p.idProduct
-        LEFT JOIN prodsales psales ON s.idSale = psales.idSale
+        LEFT JOIN prodSales psales ON s.idSale = psales.idSale
         LEFT JOIN products p2 ON psales.idProduct = p2.idProduct
         WHERE idStore = ?
         ORDER BY s.date DESC`;
@@ -160,24 +160,25 @@ class SaleModel extends BaseModel {
         }
     }
 
-    async getForStatistics({ timePeriod }) {
+    async getForStatistics({ timePeriod, id }) {
         let conn;
+
         try {
             conn = await BaseModel.getConnection();
             let sql = 'SELECT p.paymentDate, p.amountPaid FROM ' + this._table + ' s JOIN payments p ON s.idSale = p.idSale WHERE ';
             let value = '';
             if (timePeriod.hasOwnProperty('DAY')) {
-                sql += 'DATE(date) = CURDATE()';
+                sql += 'DATE(s.date) BETWEEN DATE_SUB(CURDATE(), INTERVAL ? DAY) AND CURDATE() AND S.idStore = ?';
+                value = timePeriod.DAY;
             } else if(timePeriod.hasOwnProperty('MONTH')) {
-                sql += 'date >= DATE_SUB(CURDATE(), INTERVAL ? MONTH)';
+                sql += 'date >= DATE_SUB(CURDATE(), INTERVAL ? MONTH) AND s.idStore = ?';
                 value = timePeriod.MONTH;
             } else if(timePeriod.hasOwnProperty('YEAR')) {
-                sql += 'date >= DATE_SUB(CURDATE(), INTERVAL ? YEAR)';
+                sql += 'date >= DATE_SUB(CURDATE(), INTERVAL ? YEAR) AND s.idStore = ?';
                 value = timePeriod.YEAR;
             }
-            console.log(sql);
-            const [rows] = await conn.query(sql, [value]);
-    
+            const [rows] = await conn.query(sql, [value, id]);
+
             return rows;
         } catch (e) {
             console.error('Error en la consulta:', e.message);
