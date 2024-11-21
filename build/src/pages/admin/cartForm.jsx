@@ -1,12 +1,14 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { createCarRequest, getCarRequest, updateCarRequest } from "../../api/car";
+import { getDistributorNameRequest } from "../../api/distributor.api";
 
 function CartForm() {
+  const [distributorsData, setDistributorsData] = useState([]);
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -38,6 +40,14 @@ function CartForm() {
       reset();
     }
   }, [id, setValue, reset]);
+
+  useEffect(() => {
+    (async () => {
+        const response = await getDistributorNameRequest();
+        const data = await response.data;
+        setDistributorsData(data);
+    })()
+  }, []);
 
   const onSubmit = async (data) => {
     try {
@@ -83,13 +93,16 @@ function CartForm() {
           )}
         </Form.Group>
 
-        <Form.Group className="mb-3" controlId="idPerson">
-          <Form.Label>ID Persona (opcional)</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Ingrese el ID de la persona asociada"
-            {...register("idPerson")}
-          />
+        <Form.Group>
+          <Form.Label htmlFor="idPerson">Distribuidores</Form.Label>
+          <Form.Select defaultValue="" {...register('idPerson')}>
+            <option value="" disabled></option>
+            {distributorsData.map((distributor, index) => (
+              <option key={index} value={distributor.id}>
+                {distributor.name}
+              </option>
+            ))}
+          </Form.Select>
         </Form.Group>
 
         <Button variant="primary" type="submit">
