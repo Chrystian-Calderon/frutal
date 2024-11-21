@@ -13,9 +13,9 @@ function Statistics() {
 
     useEffect(() => {
         const fetchSalesData = async () => {
-
-            const response = await getSalesDateRequest(timePeriod);
+            const response = await getSalesDateRequest(timePeriod, id);
             const data = await response.data;
+            console.log(data)
             setSalesData(data);
         };
 
