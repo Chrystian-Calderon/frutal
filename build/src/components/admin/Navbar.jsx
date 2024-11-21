@@ -13,7 +13,6 @@ const NavBar = ({ permissions }) => {
     const {role} = jwtDecode(token);
     const navigate = useNavigate();
 
-    console.log(role)
     console.log(permissions)
     const handleClick = (name) => {
         navigate(`/admin/statistics/${name}`);
@@ -24,7 +23,7 @@ const NavBar = ({ permissions }) => {
                 <Container>
                     <Navbar.Brand
                     onClick={() => navigate(`/admin/statistics/${store}`)}
-                    style={{display: 'inline-block', width: '100%', margin: '0'}}>
+                    style={{display: 'inline-block', width: '100%', margin: '0', color: '#fff', cursor: 'pointer'}}>
                         <img src="/logos/statistics.png" alt="" />{' '}
                         Estadisticas
                     </Navbar.Brand>
@@ -38,7 +37,7 @@ const NavBar = ({ permissions }) => {
                             Control de tienda
                         </Accordion.Header>
                         <Accordion.Body className='p-0'>
-                            <Button onClick={() => navigate(`/admin/store`)}>
+                            <Button onClick={() => navigate(`/admin/store`)} style={{width: '100%'}}>
                                 <img src="/logos/store.png" alt="" />{' '}
                                 Tienda
                             </Button>
@@ -46,15 +45,15 @@ const NavBar = ({ permissions }) => {
                                 <img src="/logos/profile.png" alt="" />{' '}
                                 Perfiles
                             </Button> */}
-                            <Button onClick={() => navigate(`/admin/car`)}>
+                            <Button onClick={() => navigate(`/admin/car`)} style={{width: '100%'}}>
                                 <img src="/logos/car.png" alt="" />{' '}
                                 Carritos
                             </Button>
-                            {/* <Button href="/admin/products">
+                            <Button onClick={() => navigate(`/admin/products`)} style={{width: '100%'}}>
                                 <img src="/logos/products.png" alt="" />{' '}
                                 Productos
                             </Button>
-                            <Button href="/admin/control">
+                            {/* <Button href="/admin/control">
                                 <img src="/logos/control.png" alt="" />{' '}
                                 Distribuidores
                             </Button> */}
@@ -65,7 +64,7 @@ const NavBar = ({ permissions }) => {
             {permissions.includes('users_view') && (
                 <Navbar className="side-nav-bar">
                     <Container>
-                        <Navbar.Brand onClick={() => navigate(`/admin/users`)}>
+                        <Navbar.Brand onClick={() => navigate(`/admin/users`)} style={{color: '#fff', cursor: 'pointer'}}>
                             <img src="/logos/users.png" alt="" />{' '}
                             Usuarios
                         </Navbar.Brand>
@@ -75,7 +74,7 @@ const NavBar = ({ permissions }) => {
             {permissions.includes('sales_view') && (
                 <Navbar className="side-nav-bar">
                     <Container>
-                        <Navbar.Brand onClick={() => navigate(`/admin/sales`)}>
+                        <Navbar.Brand onClick={() => navigate(`/admin/sales`)} style={{color: '#fff', cursor: 'pointer'}}>
                             <img src="/logos/sales.png" alt="" />{' '}
                             Ventas
                         </Navbar.Brand>
@@ -84,7 +83,7 @@ const NavBar = ({ permissions }) => {
             )}
             <Navbar className="side-nav-bar">
                 <Container>
-                    <Navbar.Brand onClick={() => navigate(`/admin/reports`)}>
+                    <Navbar.Brand onClick={() => navigate(`/admin/reports`)} style={{color: '#fff', cursor: 'pointer'}}>
                         <img src="/logos/reports.png" alt="" />{' '}
                         Reportes
                     </Navbar.Brand>
@@ -92,7 +91,7 @@ const NavBar = ({ permissions }) => {
             </Navbar>
             <Navbar className="side-nav-bar">
                 <Container>
-                    <Navbar.Brand onClick={() => navigate(`/admin/help`)}>
+                    <Navbar.Brand onClick={() => navigate(`/admin/help`)} style={{color: '#fff', cursor: 'pointer'}}>
                         <img src="/logos/help.png" alt="" />{' '}
                         Ayuda
                     </Navbar.Brand>
@@ -100,7 +99,7 @@ const NavBar = ({ permissions }) => {
             </Navbar>
             <Navbar className="side-nav-bar">
                 <Container>
-                    <Navbar.Brand onClick={() => navigate(`/admin/about`)}>
+                    <Navbar.Brand onClick={() => navigate(`/admin/about`)} style={{color: '#fff', cursor: 'pointer'}}>
                         <img src="/logos/about.png" alt="" />{' '}
                         Acerca de
                     </Navbar.Brand>
