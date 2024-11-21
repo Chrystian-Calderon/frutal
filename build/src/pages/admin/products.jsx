@@ -2,19 +2,25 @@ import React, { useEffect, useState } from 'react';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
-import Button from "react-bootstrap/esm/Button";
+import Table from "react-bootstrap/Table";
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
 
-import { getProductsRequest } from '../../api/products.api';
+import { deleteProductRequest, getProductsRequest } from '../../api/products.api';
+import { useNavigate } from 'react-router-dom';
 
-const ProductList = () => {
+function ProductList() {
     const [products, setProducts] = useState([]);
-    const [newProduct, setNewProduct] = useState({ name: '', price: 0, description: '', stock: 0 });
+    const [searchTerm, setSearchTerm] = useState("");
+    const navigate = useNavigate();
     const [currentPage, setCurrentPage] = useState(0);
-
     const recordsPerPage = 6;
+    const filteredProducts = products.filter((product) =>
+      product.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
     const indexOfLastRecord = (currentPage + 1) * recordsPerPage;
     const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
-    const currentRecords = products.slice(indexOfFirstRecord, indexOfLastRecord);
+    const currentRecords = filteredProducts.slice(indexOfFirstRecord, indexOfLastRecord);
 
     const totalPages = Math.ceil(products.length / recordsPerPage);
 
@@ -31,50 +37,67 @@ const ProductList = () => {
     };
 
     useEffect(() => {
-        (async () => {
+        const fetchProducts = async () => {
             try {
                 const response = await getProductsRequest();
-                const data = response.data;
-                setProducts(data);
+                console.log(response.data)
+                setProducts(response.data);
             } catch (error) {
-                console.error('Error al obtener productos', error);
+                console.error("Error fetching products:", error);
             }
-        })();
+        };
+
+        fetchProducts();
     }, []);
 
-    const createProduct = async () => {
-        try {
-            await axios.post('http://localhost:5000/api/products', newProduct);
-            fetchProducts();
-        } catch (error) {
-            console.error('Error al crear producto', error);
-        }
-    };
+  const handleDelete = async (id) => {
+    const confirm = window.confirm("¿Estás seguro de eliminar este producto?");
+    if (confirm) {
+      try {
+        await deleteProductRequest(id);
+        setProducts((prev) => prev.filter((product) => product.idProduct !== id));
+        alert("Producto eliminado correctamente");
+      } catch (error) {
+        console.error("Error deleting product:", error);
+        alert("Error al eliminar el producto");
+      }
+    }
+  };
 
-    const deleteProduct = async (id) => {
-        try {
-            await axios.delete(`http://localhost:5000/api/products/${id}`);
-            fetchProducts();
-        } catch (error) {
-            console.error('Error al eliminar producto', error);
-        }
-    };
 
-    return (
-        <div>
-            <h2>Lista de Productos</h2>
-            <input type="text" placeholder="Nombre" onChange={(e) => setNewProduct({ ...newProduct, name: e.target.value })} />
-            <input type="number" placeholder="Precio" onChange={(e) => setNewProduct({ ...newProduct, price: e.target.value })} />
-            <input type="text" placeholder="Descripción" onChange={(e) => setNewProduct({ ...newProduct, description: e.target.value })} />
-            <input type="number" placeholder="Stock" onChange={(e) => setNewProduct({ ...newProduct, stock: e.target.value })} />
-            <button onClick={createProduct}>Crear Producto</button>
-
-            <div className="row">
-                <div className="col mx-2 p-2" style={{backgroundColor: 'var(--color-columbia-blue)', borderRadius: '7px'}}>
-                    <div className="d-flex justify-content-between">
-                        <h5>Ventas</h5>
-                        <div></div>
-                        <div>
+  return (
+    <div className="container mt-4">
+        <div className="row mb-3">
+            <div className="d-flex justify-content-center" style={{gap: "10px"}}>
+            <img
+                src="/logos/products.png"
+                alt=""
+                />{' '}Productos
+            </div>
+        </div>
+      <div className="d-flex justify-content-between align-items-center mb-3" style={{gap: '20px'}}>
+        <div className='d-flex align-items-center' style={{gap: '10px', width: '40%'}}>
+            Buscar:
+            <Form.Control
+                type="text"
+                placeholder="Buscar producto por nombre"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+            />
+        </div>
+        <div className='d-flex'>
+          <Button onClick={() => navigate("/admin/newIcecream")} className="me-2">
+            Añadir Helado
+          </Button>
+          <Button onClick={() => navigate("/admin/newAddition")}>Añadir galleta</Button>
+        </div>
+      </div>
+        <div className="row">
+            <div className="col mx-2 p-2" style={{backgroundColor: 'var(--color-columbia-blue)', borderRadius: '7px'}}>
+                <div className="d-flex justify-content-between">
+                    <h5>Ventas</h5>
+                    <div></div>
+                    <div>
                         <button onClick={handlePreviousPage} disabled={currentPage === 0}>
                             &lt; {/* Botón de izquierda */}
                         </button>
@@ -82,37 +105,51 @@ const ProductList = () => {
                         <button onClick={handleNextPage} disabled={currentPage === totalPages - 1}>
                             &gt; {/* Botón de derecha */}
                         </button>
-                        </div>
                     </div>
-                    <table className="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Producto</th>
-                                <th>Precio</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {currentRecords.map((product, key) => (
-                                <tr key={product.idProduct}>
-                                    <td>{indexOfFirstRecord + key + 1}</td>
-                                    <td>{product.name}</td>
-                                    <td>{product.price}</td>
-                                    <td>
-                                        <div className="d-flex justify-content-around" style={{width: '100%'}}>
-                                            <Button className="btn btn-info" onClick={() => editClick(product.idProduct)}>Editar</Button>
-                                            <Button className="btn btn-danger" onClick={() => deleteClick(product.idProduct)}><FontAwesomeIcon icon={faTrash} /></Button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
                 </div>
+                <Table striped bordered hover>
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Nombre</th>
+                        <th>Tipo</th>
+                        <th>Acciones</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {currentRecords.map((product, index) => (
+                        <tr key={product.idProduct}>
+                        <td>{index + 1}</td>
+                        <td>{product.name}</td>
+                        <td>{product.typeProduct === "cream_icecream" ? "Helado" : "Galleta"}</td>
+                        <td>
+                            <Button
+                            variant="info"
+                            onClick={() =>
+                                navigate(
+                                `/admin/edit${
+                                    product.typeProduct === "cream_icecream" ? "Icecream" : "Addition"
+                                }/${product.idProduct}`
+                                )
+                            }
+                            className="me-2"
+                            >
+                            Editar
+                            </Button>
+                            <Button
+                            variant="danger"
+                            onClick={() => handleDelete(product.idProduct)}
+                            >
+                            Eliminar
+                            </Button>
+                        </td>
+                        </tr>
+                    ))}
+                    </tbody>
+                </Table>
             </div>
         </div>
-    );
-};
-
+    </div>
+  );
+}
 export default ProductList;
