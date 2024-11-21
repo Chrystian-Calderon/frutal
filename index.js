@@ -32,7 +32,7 @@ const limiter = rateLimit({
 
 // middlewares
 app.use(limiter);
-const corsUrl = process.env.NODE_ENV == 'production' ? [process.env.FRONTEND_URL] : ['http://127.0.0.1:5500', 'http://localhost:5500', 'http://localhost:5173'];
+const corsUrl = process.env.NODE_ENV == 'production' ? [process.env.FRONTEND_URL, 'https://heladosfrutal.com', 'https://www.heladosfrutal.com'] : ['http://127.0.0.1:5500', 'http://localhost:5500', 'http://localhost:5173'];
 app.use(cors({
   origin: corsUrl,
 }));
