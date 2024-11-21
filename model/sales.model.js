@@ -214,7 +214,7 @@ class SaleModel extends BaseModel {
             );
     
             for (const addition of validAdditions) {
-                await conn.query('INSERT INTO prodSales(idProduct, idSale, weight, price) VALUES (?, ?, ?, ?)', [addition.id, resultSale.insertId, addition.quantity, addition.total]);
+                await conn.query('INSERT INTO prodsales (idProduct, idSale, weight, price) VALUES (?, ?, ?, ?)', [addition.id, resultSale.insertId, addition.quantity, addition.total]);
             }
 
             const resultPayment = await conn.query('INSERT INTO payments(idSale, amountPaid, paymentDate) VALUES (?, ?, ?)', [resultSale.insertId, due, input['date']]);
