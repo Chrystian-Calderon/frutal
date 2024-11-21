@@ -38,11 +38,11 @@ const formatDate = (dateString) => {
 const SalesChart = ({ salesData }) => {
     
     const data = {
-        labels: salesData.map((sale) => formatDate(sale.date)), // Fechas de ventas
+        labels: salesData.map((sale) => formatDate(sale.paymentDate)), // Fechas de ventas
         datasets: [
             {
                 label: 'Ventas',
-                data: salesData.map((sale) => sale.total), // Valores totales de ventas
+                data: salesData.map((sale) => sale.amountPaid), // Valores totales de ventas
                 borderColor: 'rgba(75, 192, 192, 1)',
                 backgroundColor: 'rgba(75, 192, 192, 0.2)',
                 borderWidth: 2,
