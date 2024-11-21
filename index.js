@@ -32,8 +32,9 @@ const limiter = rateLimit({
 
 // middlewares
 app.use(limiter);
+const corsUrl = process.env.NODE_ENV == 'production' ? [process.env.FRONTEND_URL] : ['http://127.0.0.1:5500', 'http://localhost:5500', 'http://localhost:5173'];
 app.use(cors({
-  origin: process.env.FRONTEND_URL,
+  origin: corsUrl,
 }));
 app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
 app.use(express.json());
@@ -42,7 +43,7 @@ app.use(errorHandler);
 // rutas
 app.use('/users', createUserController({ userModel: UserModel }));
 app.use('/profile', createProfileController({ profileModel: ProfileModel }));
-app.use('/store', createStoreController({ storeModel: StoreModel}));
+app.use('/store', createStoreController({ storeModel: StoreModel }));
 app.use('/sales', createSalesController({ saleModel: SaleModel }));
 app.use('/products', createProductsController({ productsModel: ProductsModel }));
 app.use('/distributors', createDistributorsController({ distributorsModel: DistributorsModel }));
