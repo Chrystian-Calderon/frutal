@@ -256,18 +256,18 @@ class SaleModel extends BaseModel {
     
             for (const addition of validAdditions) {
                 const [existingProduct] = await conn.query(
-                    'SELECT idProduct FROM prodSales WHERE idSale = ? AND idProduct = ?', 
+                    'SELECT idProduct FROM prodsales WHERE idSale = ? AND idProduct = ?', 
                     [id, addition.id]
                 );
             
                 if (existingProduct.length > 0) {
                     await conn.query(
-                        'UPDATE prodSales SET weight = ?, price = ? WHERE idSale = ? AND idProduct = ?', 
+                        'UPDATE prodsales SET weight = ?, price = ? WHERE idSale = ? AND idProduct = ?', 
                         [addition.quantity, addition.total, id, addition.id]
                     );
                 } else {
                     await conn.query(
-                        'INSERT INTO prodSales (idSale, idProduct, weight, price) VALUES (?, ?, ?, ?)', 
+                        'INSERT INTO prodsales (idSale, idProduct, weight, price) VALUES (?, ?, ?, ?)', 
                         [id, addition.id, addition.quantity, addition.total]
                     );
                 }
