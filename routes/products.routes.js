@@ -9,6 +9,13 @@ const createProductsController = ({ productsModel }) => {
 
     router.get('/name', products.getName);
     router.get('/additions', products.getAdditions);
+    router.get('/icecream', products.getIcecream);
+    router.get('/addition', products.getAddition);
+    router.post('/icecream', products.createIcecream);
+    router.post('/addition', products.createAddition);
+    router.patch('/icecream', products.updateIcecream);
+    router.patch('/addition', products.updateAddition);
+    router.delete('/delete', products.deleteProduct);
 
     router.get('/', products.getProducts);
     router.post('/', products.createProduct);
