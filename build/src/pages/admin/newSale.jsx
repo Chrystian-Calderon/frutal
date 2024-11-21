@@ -7,6 +7,8 @@ import { getProductsAdditions, getProductsNameRequest } from '../../api/products
 import { createSaleRequest } from '../../api/sales.api';
 import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
+import CameraCapture from './CameraCapture';
+import PerformOCR from '../../components/admin/performOCR';
 
 const NewSale = () => {
     const { register, handleSubmit, setValue, watch, formState: { errors } } = useForm();
@@ -21,6 +23,16 @@ const NewSale = () => {
     const {_id} = jwtDecode(token);
     const store = localStorage.getItem('number');
     const navigate = useNavigate();
+
+    const [scannedText, setScannedText] = useState('');
+    const [formsData, setFormsData] = useState([]);
+
+    const handleImageCapture = async (image) => {
+        const text = await PerformOCR(image);
+        console.log(text);
+        setScannedText(text);
+        processFormData(text);
+    };
 
     useEffect(() => {
         (async () => {
@@ -106,6 +118,7 @@ const NewSale = () => {
     };
 
     return (
+        <>
         <Form onSubmit={handleSubmit(onFormSubmit)}>
             <Row>
                 <Col>
@@ -226,6 +239,8 @@ const NewSale = () => {
 
             <Button type="submit" className="mt-3">Guardar</Button>
         </Form>
+        <button onClick={() => navigate("/admin/capturar")}>Abrir Cámara</button>
+        </>
     );
 };
 

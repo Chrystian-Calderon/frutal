@@ -129,6 +129,7 @@ function Sales() {
 
         if (response.ok) {
           alert("Elemento eliminado correctamente");
+          setData((prevData) => prevData.filter((item) => item.idSale !== id));
         } else {
           alert("Error al eliminar el elemento");
         }
@@ -201,6 +202,7 @@ function Sales() {
               </tr>
             </thead>
             <tbody>
+              {console.log(salesData.length > 0)}
               {salesData && salesData.length > 0 ? (currentRecords.map((sales, key) => (
                 <tr key={sales.idSale}>
                   <td>{indexOfFirstRecord + key + 1}</td>
@@ -212,7 +214,7 @@ function Sales() {
                   <Form.Group controlId="productSelect">
                     <Form.Control as="select">
                         <option value="">Galletas</option>
-                        {sales.addition_products.map((item, index) => (
+                        {sales.addition_products && Array.isArray(sales.addition_products) && sales.addition_products.map((item, index) => (
                             <option key={index} value={item.name}>{item.name + ' ' + item.quantity + 'unid. a ' + item.price + 'Bs'}</option>
                         ))}
                     </Form.Control>
