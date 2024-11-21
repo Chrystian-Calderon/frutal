@@ -17,10 +17,11 @@ export const getSalesReportRequest = async (store, timePeriod, month) =>
         }
     });
 
-export const getSalesDateRequest = async (timePeriod) =>
+export const getSalesDateRequest = async (timePeriod, id) =>
     await axios.get(url + 'sales/statistics', {
         params: {
-            timePeriod: timePeriod
+            timePeriod: timePeriod,
+            id: id,
         }
     });
 
