@@ -134,14 +134,14 @@ function Reports() {
                 <img src="/logos/reports.png" alt="" />{' '}Reportes
             </div>
             <div>
-                <div className="d-flex">
+                <div className="d-flex" style={{gap: '20px'}}>
                     <div className="d-flex">
-                        Buscar: 
+                        {/* Buscar: 
                         <input
                             type="text"
                             className="form-control"
                             placeholder="Buscar cliente"
-                        />
+                        /> */}
                     </div>
                     <SelectComponent datas={months} selected={selectedMonth} handleChange={handleMonthChange} />
                     <Form.Select value={selectedStore} onChange={handleStoreChange} className="ms-2">
@@ -152,12 +152,12 @@ function Reports() {
                     </Form.Select>
                     <Button onClick={fetchDataByMonth}>Mostrar</Button>
                 </div>
-                <div>
+                <div className="mt-3">
                     <Button variant="secondary" onClick={exportToPDF} className="ms-2">Exportar PDF</Button>
                     <Button variant="success" onClick={exportToExcel} className="ms-2">Exportar Excel</Button>
                 </div>
             </div>
-            <div className='border p-2'>
+            <div className='border p-2 mt-3'>
                 <div className='d-flex justify-content-between'>
                     <h3>Ventas de la tienda</h3>
                     <div className='d-flex' style={{gap: '5px'}}>
